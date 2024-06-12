@@ -1,0 +1,217 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:form="sap.ui.layout.form"
+>
+	<form:SimpleForm
+		visible="{= !${stateModel>/displayMode}}"
+		maxContainerCols="3"
+		layout="ResponsiveGridLayout"
+		columnsL="3"
+		columnsM="3"
+		labelSpanXL="12"
+		emptySpanXL="2"
+		labelSpanL="12"
+		emptySpanL="0"
+		labelSpanM="12"
+		emptySpanM="0"
+	>
+		<form:content>
+			<Toolbar visible="false"/>
+			<Label
+				text="{i18n>SupplierNameLabel}"
+				showColon="true"
+				required="true"
+			/>
+			<Input
+				id="newSupplierNameInput"
+				fieldGroupIds="newSupplierInputs"
+				liveChange="onInputLiveChange"
+				change="onInputChange"
+				value="{
+					path: 'oDataModel>Name',
+					type: 'sap.ui.model.type.String',
+					constraints: {
+						minLength: 3,
+						maxLength: 40
+					}
+				}"
+			/>
+			<Label
+				text="{i18n>SupplierCountryLabel}"
+				showColon="true"
+				required="true"
+			/>
+			<Select
+				id="newSupplierCountryInput"
+				forceSelection="false"
+				change="onCountrySelectValidate"
+				items="{appViewModel>/suppliersInfo/countries}"
+				selectedKey="{oDataModel>Address/Country}"
+			>
+				<core:Item
+					key="{appViewModel>countryName}"
+					text="{appViewModel>countryName}"
+				/>
+			</Select>
+			<Toolbar visible="false"/>
+			<Label
+				text="{i18n>SupplierStateLabel}"
+				showColon="true"
+				required="true"
+			/>
+			<Input
+				id="newSupplierStateInput"
+				fieldGroupIds="newSupplierInputs"
+				liveChange="onInputLiveChange"
+				change="onInputChange"
+				value="{
+					path: 'oDataModel>Address/State',
+					type: 'sap.ui.model.type.String',
+					constraints: {
+						minLength: 2,
+						maxLength: 20
+					}
+				}"
+			/>
+			<Label
+				text="{i18n>SupplierCityLabel}"
+				showColon="true"
+				required="true"
+			/>
+			<Input
+				id="newSupplierCityInput"
+				liveChange="onCityInputValueCheck"
+				value="{
+					path: 'oDataModel>Address/City',
+					type: 'sap.ui.model.type.String'
+				}"
+				suggestionItems="{
+					path: 'appViewModel>/suppliersInfo/cities',
+					sorter: {
+						path: 'producerName'
+					}
+				}"
+				showValueHelp="true"
+				valueHelpRequest="onCityInputValueHelpOpen"
+			>
+				<core:Item
+					key="{appViewModel>cityId}"
+					text="{appViewModel>cityName}"
+				/>
+			</Input>
+			<Toolbar visible="false"/>
+			<Label
+				text="{i18n>SupplierStreetLabel}"
+				showColon="true"
+				required="true"
+			/>
+			<Input
+				id="newSupplierStreetInput"
+				fieldGroupIds="newSupplierInputs"
+				liveChange="onInputLiveChange"
+				change="onInputChange"
+				value="{
+					path: 'oDataModel>Address/Street',
+					type: 'sap.ui.model.type.String',
+					constraints: {
+						minLength: 3,
+						maxLength: 40
+					}
+				}"
+			/>
+			<Label
+				text="{i18n>SupplierZipCodeLabel}"
+				showColon="true"
+				required="true"
+			/>
+			<Input
+				id="newSupplierZipCodeInput"
+				fieldGroupIds="newSupplierInputs"
+				liveChange="onInputLiveChange"
+				change="onInputChange"
+				value="{
+					path: 'oDataModel>Address/ZipCode',
+					type: 'sap.ui.model.type.String',
+					constraints: {
+						minLength: 5,
+						maxLength: 5
+					}
+				}"
+			/>
+		</form:content>
+	</form:SimpleForm>
+	<form:SimpleForm
+		visible="{stateModel>/displayMode}"
+		maxContainerCols="3"
+		layout="ResponsiveGridLayout"
+		columnsL="3"
+		columnsM="3"
+		labelSpanXL="12"
+		emptySpanXL="2"
+		labelSpanL="12"
+		emptySpanL="0"
+		labelSpanM="12"
+		emptySpanM="0"
+	>
+		<form:content>
+			<Toolbar visible="false"/>
+			<Label
+				text="{i18n>SupplierNameLabel}"
+				showColon="true"
+			/>
+			<Text
+				text="{oDataModel>Name}"
+				tooltip="{oDataModel>Name}"
+				maxLines="1"
+			/>
+			<Label
+				text="{i18n>SupplierCountryLabel}"
+				showColon="true"
+			/>
+			<Text
+				text="{oDataModel>Address/Country}"
+				tooltip="{oDataModel>Address/Country}"
+				maxLines="1"
+			/>
+			<Toolbar visible="false"/>
+			<Label
+				text="{i18n>SupplierStateLabel}"
+				showColon="true"
+			/>
+			<Text
+				text="{oDataModel>Address/State}"
+				tooltip="{oDataModel>Address/State}"
+				maxLines="1"
+			/>
+			<Label
+				text="{i18n>SupplierCityLabel}"
+				showColon="true"
+			/>
+			<Text
+				text="{oDataModel>Address/City}"
+				tooltip="{oDataModel>Address/City}"
+				maxLines="1"
+			/>
+			<Toolbar visible="false"/>
+			<Label
+				text="{i18n>SupplierStreetLabel}"
+				showColon="true"
+			/>
+			<Text
+				text="{oDataModel>Address/Street}"
+				tooltip="{oDataModel>Address/Street}"
+				maxLines="1"
+			/>
+			<Label
+				text="{i18n>SupplierZipCodeLabel}"
+				showColon="true"
+			/>
+			<Text
+				text="{oDataModel>Address/ZipCode}"
+				tooltip="{oDataModel>Address/ZipCode}"
+				maxLines="1"
+			/>
+		</form:content>
+	</form:SimpleForm>
+</core:FragmentDefinition>

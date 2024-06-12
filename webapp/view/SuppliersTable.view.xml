@@ -1,0 +1,198 @@
+<mvc:View
+	xmlns="sap.m"
+	xmlns:fb="sap.ui.comp.filterbar"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:f="sap.f"
+	xmlns:core="sap.ui.core"
+	controllerName="pavel.kliuiko.controller.SuppliersTable"
+>
+	<f:DynamicPage id="suppliersTablePage" fitContent="true">
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<Title text="{i18n>SuppliersTableViewTitle}" />
+				</f:heading>
+					<f:actions>
+						<Button
+								id="countriesGettingBtn"
+								text="{i18n>GetCountriesBtn}"
+								type="Emphasized"
+								press="onGetCountriesDataPress"/>
+					</f:actions>
+			</f:DynamicPageTitle>
+		</f:title>
+		<f:header>
+			<f:DynamicPageHeader>
+				<fb:FilterBar
+					id="filterBar"
+					persistencyKey="myPersKey"
+					useToolbar="false"
+					clear="onFiltersClear"
+					showClearOnFB="true"
+					showFilterConfiguration="false"
+					showGoOnFB="false"
+				>
+					<fb:filterGroupItems>
+						<fb:FilterGroupItem
+							name="Name"
+							label="{i18n>SupplierSearchFieldLabel}"
+							groupName="SupplierFilters"
+							visibleInFilterBar="true"
+						>
+							<fb:control>
+								<SearchField
+									id="idSupplierSearchField"
+									liveChange="onSuppliersSearch"
+								/>
+							</fb:control>
+						</fb:FilterGroupItem>
+						<fb:FilterGroupItem
+							name="Country"
+							label="{i18n>SupplierCountryInputLabel}"
+							groupName="SupplierFilters"
+							visibleInFilterBar="true"
+						>
+							<fb:control>
+								<MultiComboBox
+									selectionChange="onSuppliersSearch"
+									items="{
+										path: 'appViewModel>/suppliersInfo/countries',
+										templateShareable: true
+									}"
+								>
+									<core:Item
+										key="{appViewModel>countryId}"
+										text="{appViewModel>countryName}"
+									/>
+								</MultiComboBox>
+							</fb:control>
+						</fb:FilterGroupItem>
+						<fb:FilterGroupItem
+							name="City"
+							label="{i18n>SupplierCityInputLabel}"
+							groupName="SupplierFilters"
+							visibleInFilterBar="true"
+						>
+							<fb:control>
+								<MultiInput
+									id="cityMultiInput"
+									tokenUpdate="onMultiInputUpdate"
+									suggestionItems="{
+										path: 'appViewModel>/suppliersInfo/cities'
+									}"
+									valueHelpRequest="onCityFilterValueHelpOpen"
+								>
+									<core:Item
+										key="{appViewModel>cityId}"
+										text="{appViewModel>cityName}"
+									/>
+								</MultiInput>
+							</fb:control>
+						</fb:FilterGroupItem>
+					</fb:filterGroupItems>
+				</fb:FilterBar>
+			</f:DynamicPageHeader>
+		</f:header>
+		<f:content>
+			<Table
+				id="idSuppliersTable"
+				sticky="ColumnHeaders"
+				items="{oDataModel>/Suppliers}"
+				selectionChange="onCheckSelectedSuppliers"
+				updateFinished="onSuppliersTableUpdateFinished"
+				width="auto"
+				mode="MultiSelect"
+			>
+				<headerToolbar>
+					<Toolbar>
+						<Title text="{
+							parts: ['appViewModel>/suppliersCount'],
+							formatter: '.formatter.formatSuppliersTableTitle'
+						}" />
+						<ToolbarSpacer />
+						<HBox>
+							<Button
+								id="suppliersDeleteButton"
+								class="sapUiTinyMarginEnd"
+								enabled="{stateModel>/supplierDeleteBtn}"
+								text="{i18n>DeleteBtnText}"
+								press="onDeleteSelectedSuppliers"
+								type="Transparent"
+							/>
+							<Button
+								id="suppliersCreateButton"
+								text="{i18n>CreateBtnText}"
+								press="onCreateNewSupplierPress"
+								type="Transparent"
+							/>
+						</HBox>
+					</Toolbar>
+				</headerToolbar>
+				<columns>
+					<Column>
+						<Text text="{i18n>SuppliersTableNameColumnText}" />
+					</Column>
+					<Column>
+						<Text text="{i18n>SuppliersTableStateColumnText}" />
+					</Column>
+					<Column
+						minScreenWidth="Small"
+						demandPopin="true"
+					>
+						<Text text="{i18n>SuppliersTableCountryColumnText}" />
+					</Column>
+					<Column
+						minScreenWidth="Small"
+						demandPopin="true"
+					>
+						<Text text="{i18n>SuppliersTableCityColumnText}" />
+					</Column>
+					<Column
+						minScreenWidth="Tablet"
+						demandPopin="true"
+					>
+						<Text text="{i18n>SuppliersTableStreetColumnText}" />
+					</Column>
+					<Column
+						hAlign="End"
+						minScreenWidth="Large"
+						demandPopin="true"
+					>
+						<Text text="{i18n>SuppliersTableCodeColumnText}" />
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem
+						press="onSupplierTablePress"
+						type="Navigation"
+					>
+						<cells>
+							<ObjectIdentifier title="{oDataModel>Name}" />
+							<Text
+								text="{oDataModel>Address/State}"
+								tooltip="{oDataModel>Address/State}"
+								maxLines="1"
+							/>
+							<Text
+								text="{oDataModel>Address/Country}"
+								tooltip="{oDataModel>/Address/Country}"
+								maxLines="1"
+							/>
+							<Text
+								text="{oDataModel>Address/City}"
+								tooltip="{oDataModel>/Address/City}"
+								maxLines="1"
+							/>
+							<Text
+								text="{oDataModel>Address/Street}"
+								tooltip="{oDataModel>/Address/Street}"
+								maxLines="1"
+							/>
+							<ObjectNumber number="{oDataModel>Address/ZipCode}" />
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</f:content>
+	</f:DynamicPage>
+</mvc:View>
